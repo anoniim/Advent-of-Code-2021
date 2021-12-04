@@ -6,6 +6,7 @@ private class Day04 {
 
     fun main() {
         fun part1(input: List<String>): Int {
+            // Win over the squid
             val numbers = input[0].split(",").map { it.toInt() }
             val boards = parseBoards(input.subList(2, input.size))
             var currentNumberIndex = 0
@@ -25,12 +26,27 @@ private class Day04 {
         }
 
         fun part2(input: List<String>): Int {
+            // Let the squid win
+            val numbers = input[0].split(",").map { it.toInt() }
+            val boards = parseBoards(input.subList(2, input.size))
+            val boardsThatHaventWon = boards.toMutableList()
+            for (currentNumberIndex in numbers.indices) {
+                val currentNumber = numbers[currentNumberIndex]
+                boards.forEach {
+                    it.mark(currentNumber)
+                    val score: Int = it.check() * currentNumber
+                    if (score > 0) boardsThatHaventWon.remove(it)
+                    if (boardsThatHaventWon.size == 0) {
+                        return score
+                    }
+                }
+            }
             return 0
         }
 
         // test if implementation meets criteria from the description, like:
         val testInput = parseInput("${this::class.simpleName}_test")
-        check(part1(testInput) == 4512)
+        check(part2(testInput) == 1924)
 
         val input = parseInput("${this::class.simpleName}")
         println(part1(input))
@@ -45,6 +61,7 @@ private class Day04 {
 
     private class Board(val grid: Array<IntArray>, val size: Int = 5) {
 
+        var hasWon = false
         val markedNumbers = Array(size) { BooleanArray(size) { false } }
 
         fun mark(number: Int) {
@@ -56,7 +73,7 @@ private class Day04 {
         }
 
         fun check(): Int {
-            val hasWon = checkRows() || checkCols()
+            hasWon = checkRows() || checkCols()
             return if (hasWon) calculateScore() else 0
         }
 
