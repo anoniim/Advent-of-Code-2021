@@ -4,10 +4,10 @@ fun main() {
 
 private class Day02part2 {
     fun main() {
-        fun part2(input: List<Movement>): Int {
+        fun part2(commands: List<Command>): Int {
             val position = Position()
-            input.forEach { newPosition ->
-                position += newPosition.positionDelta(position.aim)
+            commands.forEach {
+                position += it.positionDelta(position.aim)
             }
             return position.x * position.depth
         }
@@ -20,7 +20,7 @@ private class Day02part2 {
         println(part2(input))
     }
 
-    private fun parseInput(inputFile: String) = readInput(inputFile).map { Movement.parse(it) }
+    private fun parseInput(inputFile: String) = readInput(inputFile).map { Command.parse(it) }
 
     private enum class Direction(val xChange: Int, val aimChange: Int) {
         UP(0, -1),
@@ -32,7 +32,7 @@ private class Day02part2 {
         }
     }
 
-    private class Movement(val direction: Direction, val delta: Int) {
+    private class Command(val direction: Direction, val delta: Int) {
 
         fun positionDelta(aim: Int): Position {
             val directionFactor = direction.factor()
@@ -41,10 +41,11 @@ private class Day02part2 {
         }
 
         companion object {
-            fun parse(input: String): Movement {
-                val split = input.split(" ")
-                val direction = Direction.valueOf(split[0].uppercase())
-                return Movement(direction, split[1].toInt())
+            fun parse(commandString: String): Command {
+                val (directionString, deltaString) = commandString.split(" ")
+                val direction = Direction.valueOf(directionString.uppercase())
+                val delta = deltaString.toInt()
+                return Command(direction, delta)
             }
         }
     }
