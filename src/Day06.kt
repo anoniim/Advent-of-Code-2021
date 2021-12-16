@@ -33,6 +33,7 @@ private class Day06 {
 
     fun part2(input: List<Int>): Long {
         // How many lanternfish are there after 256 days?
+        // TODO implement coroutines to calculate sum for each initial fish in parallel
         return input.sumOf { sumAllInGeneration(0, it+1, 256) }
     }
 
