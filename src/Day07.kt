@@ -17,12 +17,20 @@ private class Day07 {
 
     fun part1(input: List<Int>): Int {
         // What's the cheapest position and how much fuel do crabs spend to align to that position?
-        // TODO Order and find median, then test values from there
+        return findPositionWithCheapestCost(input, this::calculateCostPart1)
+    }
+
+    fun part2(input: List<Int>): Int {
+        // Updated cost algorithm
+        return findPositionWithCheapestCost(input, this::calculateCostPart2)
+    }
+
+    private fun findPositionWithCheapestCost(input: List<Int>, calculateCost: (Int, List<Int>) -> Int): Int {
         val minPosition = input.minOf { it }
         val maxPosition = input.maxOf { it }
         var minCost = Int.MAX_VALUE
         for (position in minPosition..maxPosition) {
-            val cost = calculateCostPart1(position, input)
+            val cost = calculateCost(position, input)
             if (cost < minCost) minCost = cost
         }
         return minCost
@@ -34,18 +42,6 @@ private class Day07 {
             cost += abs(target - position)
         }
         return cost
-    }
-
-    fun part2(input: List<Int>): Int {
-        // Updated cost algorithm
-        val minPosition = input.minOf { it }
-        val maxPosition = input.maxOf { it }
-        var minCost = Int.MAX_VALUE
-        for (position in minPosition..maxPosition) {
-            val cost = calculateCostPart2(position, input)
-            if (cost < minCost) minCost = cost
-        }
-        return minCost
     }
 
     private fun calculateCostPart2(target: Int, input: List<Int>): Int {
