@@ -36,7 +36,7 @@ private class Day03 {
 
     private fun oxygenCriteria(input: List<String>, index: Int): List<String> {
         if (input.size == 1) return input
-        val mostCommonBit = mostCommonBit(input, index, 1)
+        val mostCommonBit = input.mostCommonBitAt(index, "1")
         val filteredInput = input.filter { it[index].toString() == mostCommonBit }
         return oxygenCriteria(filteredInput, index + 1)
     }
@@ -47,32 +47,29 @@ private class Day03 {
 
     private fun co2ScrubberCriteria(input: List<String>, index: Int): List<String> {
         if (input.size == 1) return input
-        val leastCommonBit = reverse(mostCommonBit(input, index, 1)[0])
+        val leastCommonBit = reverse(input.mostCommonBitAt(index, "1")[0])
         val filteredInput = input.filter { it[index].toString() == leastCommonBit }
         return co2ScrubberCriteria(filteredInput, index + 1)
     }
 
     private fun calculateGammaRate(input: List<String>): String {
-        var result = ""
-        for (i in 0 until input[0].length) {
-            val bit: String = mostCommonBit(input, i)
-            result += bit
+        return buildString {
+            for (i in input.first().indices) {
+                append(input.mostCommonBitAt(i))
+            }
         }
-        return result
     }
 
-    private fun mostCommonBit(input: List<String>, index: Int, valueIfEven: Int = 0): String {
-        var zeroCount = 0
-        input.forEach {
-            if (it[index].toString().toInt() == 0) zeroCount++
-        }
-        return if (zeroCount == input.size / 2) valueIfEven.toString() else if (zeroCount > input.size / 2) "0" else "1"
+    private fun List<String>.mostCommonBitAt(index: Int, valueIfEven: String = "0"): String {
+        val zeroCount = count { it[index] == '0' }
+        val halfListLength = size / 2
+        return if (zeroCount == halfListLength) valueIfEven else if (zeroCount > halfListLength) "0" else "1"
     }
 
     private fun calculateEpsilonRate(input: String): String {
-        var output = ""
-        input.forEach { output += reverse(it) }
-        return output
+        return buildString {
+            input.forEach { append(reverse(it)) }
+        }
     }
 
     private fun reverse(bit: Char): String {
