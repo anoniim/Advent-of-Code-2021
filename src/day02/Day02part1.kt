@@ -1,3 +1,7 @@
+package day02
+
+import readInput
+
 fun main() { Day02part1().main() }
 
 private class Day02part1 {
