@@ -1,7 +1,10 @@
+package day06
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import readInput
 import kotlin.system.measureTimeMillis
 
 fun main() {
