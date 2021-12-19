@@ -1,3 +1,7 @@
+package day01
+
+import readInts
+
 fun main() {
     fun part1(input: List<Int>): Int {
         return input.windowed(2)
