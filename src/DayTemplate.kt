@@ -2,13 +2,15 @@ fun main() = Day().main()
 
 private class Day {
 
+    private val className = this::class.simpleName
+
     fun main() {
         // test if implementation meets criteria from the description:
-        val testInput = parseInput("${this::class.simpleName}_test")
+        val testInput = parseInput("$className/${className}_test")
         check(part1(testInput) == 0)
         check(part2(testInput) == 0)
 
-        val input = parseInput("${this::class.simpleName}")
+        val input = parseInput("$className/$className")
         println(part1(input))
         println(part2(input))
     }

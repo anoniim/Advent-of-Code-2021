@@ -13,9 +13,11 @@ fun main() {
 
 private class Day06 {
 
+    private val className = this::class.simpleName
+
     fun main() {
         // test if implementation meets criteria from the description:
-        val testInput = parseInput("${this::class.simpleName}_test")
+        val testInput = parseInput("$className/${className}_test")
         check(part1(testInput) == 5934)
         measureTimeMillis {
             check(part2(testInput) == 26984457539)
@@ -25,7 +27,7 @@ private class Day06 {
             check(part2MultiThreaded(testInput) == 26984457539)
         }.also { time -> println("Completed in ${time/1000}s") }
 
-        val input = parseInput("${this::class.simpleName}")
+        val input = parseInput("$className/$className")
         println(part1(input))
 //        println(part2(input)) // FIXME takes way too long
     }

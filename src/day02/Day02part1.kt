@@ -16,10 +16,10 @@ private class Day02part1 {
         }
 
         // test if implementation meets criteria from the description, like:
-        val testInput = parseInput("Day02_test")
+        val testInput = parseInput("day02/Day02_test")
         check(part1(testInput) == 150)
 
-        val input = parseInput("Day02")
+        val input = parseInput("day02/Day02")
         println(part1(input))
     }
 

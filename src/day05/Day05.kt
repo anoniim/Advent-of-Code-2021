@@ -8,6 +8,8 @@ fun main() {
 
 private class Day05 {
 
+    private val className = this::class.simpleName
+
     fun main() {
         fun part1(input: List<Pair<Point, Point>>): Int {
             // Find the most dangerous areas
@@ -35,11 +37,11 @@ private class Day05 {
         }
 
         // test if implementation meets criteria from the description, like:
-        val testInput = parseInput("${this::class.simpleName}_test")
+        val testInput = parseInput("$className/${className}_test")
         check(part1(testInput) == 5)
         check(part2(testInput) == 12)
 
-        val input = parseInput("${this::class.simpleName}")
+        val input = parseInput("$className/$className")
         println(part1(input))
         println(part2(input))
     }

@@ -8,6 +8,8 @@ fun main() {
 
 private class Day03 {
 
+    private val className = this::class.simpleName
+
     fun main() {
         fun part1(input: List<String>): Int {
             val gammaRate = calculateGammaRate(input)
@@ -22,10 +24,10 @@ private class Day03 {
         }
 
         // test if implementation meets criteria from the description, like:
-        val testInput = parseInput("${this::class.simpleName}_test")
+        val testInput = parseInput("$className/${className}_test")
         check(part2(testInput) == 230)
 
-        val input = parseInput("${this::class.simpleName}")
+        val input = parseInput("$className/$className")
         println(part1(input))
         println(part2(input))
     }
