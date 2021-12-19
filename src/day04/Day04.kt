@@ -1,3 +1,7 @@
+package day04
+
+import readInput
+
 fun main() {
     Day04().main()
 }
