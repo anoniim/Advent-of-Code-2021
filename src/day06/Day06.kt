@@ -19,17 +19,21 @@ private class Day06 {
         // test if implementation meets criteria from the description:
         val testInput = parseInput("$className/${className}_test")
         check(part1(testInput) == 5934)
-        measureTimeMillis {
-            check(part2(testInput) == 26984457539)
-        }.also { time -> println("Completed in ${time/1000}s") }
+//        measureTimeMillis {
+//            check(part2(testInput) == 26984457539)
+//        }.also { time -> println("part 2 completed in ${time/1000}s") }
+
+//        measureTimeMillis {
+//            check(part2MultiThreaded(testInput) == 26984457539)
+//        }.also { time -> println("part 2 multi-threaded completed in ${time/1000}s") }
 
         measureTimeMillis {
-            check(part2MultiThreaded(testInput) == 26984457539)
-        }.also { time -> println("Completed in ${time/1000}s") }
+            check(part2Fast(testInput) == 26984457539)
+        }.also { time -> println("part 2 fast completed in ${time/1000}s") }
 
         val input = parseInput("$className/$className")
         println(part1(input))
-//        println(part2(input)) // FIXME takes way too long
+        println(part2Fast(input))
     }
 
     fun part1(input: List<Int>): Int {
@@ -80,6 +84,26 @@ private class Day06 {
             sumOfAllChildren += sumAllInGenerationSuspended(birthDay, 9, maxDay)
         }
         1L + sumOfAllChildren
+    }
+
+    fun part2Fast(input: List<Int>): Long {
+        // How many lanternfish are there after 256 days?
+        var fishMap = mutableMapOf<Int, Long>()
+        input.forEach { fishMap[it] = (fishMap[it] ?: 0L) + 1 }
+        repeat(256) {
+            val newFishMap = mutableMapOf<Int, Long>()
+            fishMap.forEach { (days: Int, population: Long) ->
+                val nextDay = days-1
+                if (nextDay < 0) {
+                    newFishMap[6] = (newFishMap[6] ?: 0L) + population
+                    newFishMap[8] = (newFishMap[8] ?: 0L) + population
+                } else {
+                    newFishMap[nextDay] = (newFishMap[nextDay] ?: 0L) + population
+                }
+            }
+            fishMap = newFishMap
+        }
+        return fishMap.values.sum()
     }
 
     private fun parseInput(inputFile: String) = readInput(inputFile)[0].split(',').map { it.toInt() }
